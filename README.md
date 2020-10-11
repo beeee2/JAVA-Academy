@@ -1,1 +1,1 @@
-# JAVA-Academy
+# JAVA_Class
