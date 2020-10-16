@@ -1,0 +1,47 @@
+import java.util.Scanner;
+
+public class Ex1016 {
+	public static void main(String[] args) {
+  	System.out.println("문장 입력 >>");
+	  Scanner sc = new Scanner(System.in);
+	
+	  String text = sc.nextLine();
+	
+	  StringBuffer sb = new StringBuffer(text);
+	
+	  while(true)
+	  {
+		  System.out.println("명령 입력 >> ");
+		  String cmd = sc.nextLine();
+		  if(cmd.equals("종료"))
+		  {
+			  System.out.println("종료합니다.");
+			  break;
+		  }
+		
+		  String[] tokens = cmd.split("-"); 
+		// - 라는 문자를 기준으로 문자열을 나누어 배열에 저장하여 리턴
+		// -라는 문자 이전이 변경할 대상에 해당하고 - 이후가 변경할 내용에 해당한다. 
+		  if(tokens.length != 2)
+			  System.out.println("잘못된 명령입니다.");
+		  else
+			  if((tokens[0].length()==0) || (tokens[1].length()==0))
+			  {
+				  System.out.println("잘못된 명령입니다.");
+				  continue;
+			  }
+	
+		  int index = sb.indexOf(tokens[0]); //sb문자열에서 tokens[0]에 해당하는 문자의 처음 인덱스를 반환한다
+		  if(index == -1)
+		  {	
+			  System.out.println("찾을 수 없습니다.");
+			  continue; //새로 입력받기
+	  	}
+		
+		  sb.replace(index, index+tokens[0].length(), tokens[1]);
+		  System.out.println(sb.toString());
+		
+	  }
+	
+	}
+}
