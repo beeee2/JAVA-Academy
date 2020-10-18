@@ -1,0 +1,32 @@
+class Song
+{
+	String title;
+	String artist;
+	String year;
+	String country;
+	
+	Song(String t, String c, String a, String y)
+	{
+		title = t;
+		artist = a;
+		year = y;
+		country = c;
+	}
+	
+	void show()
+	{
+		System.out.print(title+"은 ");
+		System.out.print(country+ " 국적의 ");
+		System.out.print(artist + "이 부른 노래로 ");
+		System.out.println(year + "년에 발매되었습니다.");
+	}
+}
+
+public class Ex_0924 {
+
+	public static void main(String[] args) {
+		Song s = new Song("ALIEN", "한국", "이수현", "2020");
+		s.show();
+		
+	}
+}
