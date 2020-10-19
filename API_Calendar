@@ -1,0 +1,139 @@
+package API;
+
+import java.util.Calendar;
+
+/*
+ [Calendar / Date]
+
+	date
+		- 날짜와 시간을 다룰 목적으로 만들어진 클래스 ( jdk 1.0버전에서 만들어진 클래스 )
+	Calendar
+		- date클래스를 개선한 클래스 (jdk 1.1버전에서 만들어진 클래스)
+		- 추상클래스이기 때문에 인스턴스화가 안 됨.
+		- 싱글톤getInstanse를 통해 구현된 객체 획득 가능
+		
+	Time 클래스
+		- Date와 Calendar의 단점을 개선한 클래스( jdk 1.8버전에서 만들어진 클래스 ) 
+ */
+
+public class CalendarEx1 {
+	public static void main(String[] args) {
+		Calendar today = Calendar.getInstance(); 
+		
+//		System.out.println(today);
+		System.out.println("이 해의 년도 : "+today.get(Calendar.YEAR));
+		//get() - Calendar에 정의된 static 상수 
+		System.out.println("월 : "+ (today.get(Calendar.MONTH)+1));
+		//캘린더의 month는 0부터~11까지 있으니 1을 더해주어야 한다.
+		System.out.println("이 해의 몇 째 주  : "+today.get(Calendar.WEEK_OF_YEAR));
+		System.out.println("이 달의 몇 째 주 : "+today.get(Calendar.WEEK_OF_MONTH));
+		System.out.println("이 달의 몇 일 : "+ today.get(Calendar.DATE));
+		System.out.println("이 해의 몇 일 : "+ today.get(Calendar.DAY_OF_YEAR));
+		System.out.println("요일(1~7, 1은 일요일을 의미) : "+today.get(Calendar.DAY_OF_WEEK)); 
+		// 캘린더의 요일은 1~7로, 숫자로 표기된다. 
+		System.out.println("시간(0~11, 0이 12시를 의미) : "+today.get(Calendar.HOUR));
+		//캘린더의 시간도 0~11로 나타남
+		System.out.println("시간(0~23) : "+today.get(Calendar.HOUR_OF_DAY));
+		System.out.println("분(0~59) : " + today.get(Calendar.MINUTE));
+		System.out.println("초(0~59) : "+ today.get(Calendar.SECOND));
+		System.out.println("1000분의 1초 : "+ today.get(Calendar.MILLISECOND));
+		
+		///////////// 이달의 마지막 날 구하기 <-  은근히 자주 쓰임 //////////////////
+		System.out.println("이 달의 마지막 날 : "+ today.getActualMaximum(Calendar.DATE));
+	}
+}
+
+public class CalendarEx2 {
+	public static void main(String[] args) {
+		
+		String[] DAY_OF_WEEK = {"","일","월","화","수","목","금","토"};
+		//캘린더에서 일주일을 표기할때 1이 일요일을 의미한다. 
+		
+		Calendar date1 = Calendar.getInstance();
+		Calendar date2 = Calendar.getInstance();
+
+		date1.set(2020, Calendar.OCTOBER, 18); //영어형태로 상수형태로 만드는 것이 덜 헷갈림, 월은 0~11 
+		System.out.println("date1은 "+ toString(date1)+DAY_OF_WEEK[date1.get(Calendar.DAY_OF_WEEK)]+"요일이고, ");
+		date2.set(2020,Calendar.OCTOBER, 19);
+		System.out.println("date2은 "+ toString(date2)+DAY_OF_WEEK[date2.get(Calendar.DAY_OF_WEEK)]+"요일이다. ");
+	
+		// 두 날짜간의 차이를 얻으려면, getTimeInMillis() 천 분의 일 초 단위로 변경
+		long difference = (date2.getTimeInMillis()- date1.getTimeInMillis())/1000; //1000을 나눔으로써 초단위로 변경
+		System.out.println("date2와 date1은 "+difference/(24*60*60) +"일 차이가 난다.");
+	
+	}
+
+	public static String toString(Calendar date) {
+		return date.get(Calendar.YEAR)+"년 "+(date.get(Calendar.MONTH)+1)+"월 " + date.get(Calendar.DATE)+"일 ";
+	}
+	
+}
+
+public class CalendarEx3 {
+
+	public static void main(String[] args) {
+
+		final int[] TIME_UNIT = {3600, 60, 1};
+		final String[] TIME_UNIT_NAME = {"시간 ", "분 ", "초 "};
+		
+		Calendar time1 = Calendar.getInstance();
+		Calendar time2 = Calendar.getInstance();
+
+		time1.set(Calendar.HOUR_OF_DAY, 19); 
+		time1.set(Calendar.MINUTE, 55); 
+		time1.set(Calendar.SECOND, 30); 
+
+		time2.set(Calendar.HOUR_OF_DAY, 20); 
+		time2.set(Calendar.MINUTE, 55); 
+		time2.set(Calendar.SECOND, 30); 
+		
+		System.out.println("time1 : "+ toString(time1));
+		System.out.println("time2 : "+ toString(time2));
+
+		long difference = (time2.getTimeInMillis() - time1.getTimeInMillis())/1000;
+		System.out.println("time1과 time2의 차이는 "+ difference+ "초 입니다.");
+		
+		String tmp = ""; 
+		for(int i=0; i<TIME_UNIT.length;i++) {
+			tmp +=  difference/TIME_UNIT[i] + TIME_UNIT_NAME[i];
+			difference %= TIME_UNIT[i];
+		}
+		System.out.println("시분초 변환 : " + tmp + "입니다.");
+	}
+	
+	public static String toString(Calendar date) {
+		return date.get(Calendar.HOUR_OF_DAY)+"시 "+date.get(Calendar.MINUTE)+"분 " + date.get(Calendar.SECOND)+"초 ";
+	}
+}
+
+public class CalendarEx4 {
+
+	public static void main(String[] args) {
+		/*
+		 add() : 지정한 필드의 값을 원하는 만큼 증감
+		 roll() : 지정한 필드의 값을 원하는 만큼 증감(다른 필드에 영향 X)
+		 */
+		
+		Calendar date = Calendar.getInstance();
+		date.set(2005, 7, 31);
+		
+		System.out.println(toString(date));
+		System.out.println("= 1일 후 =");
+		date.add(Calendar.DATE, 1);
+		System.out.println(toString(date));
+		
+		System.out.println("= 6달 전 =");
+		date.add(Calendar.MONTH, -6);
+		System.out.println();
+		
+		System.out.println("= 31일 후(roll) =");
+		date.roll(Calendar.DATE, 31);
+		System.out.println(toString(date));
+		System.out.println("= 31일 후(add) =");
+		date.add(Calendar.DATE, 31);
+		System.out.println(toString(date));
+	}
+	public static String toString(Calendar date) {
+		return date.get(Calendar.YEAR)+"년 "+(date.get(Calendar.MONTH)+1)+"월 " + date.get(Calendar.DATE)+"일 ";
+	}
+}
