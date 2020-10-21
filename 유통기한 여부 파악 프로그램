@@ -1,0 +1,13 @@
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
+
+LocalDateTime end_time = LocalDateTime.of(2020, 10,24,12,00);
+System.out.println(end_time);
+if(idt.isAfter(end_time)) {
+	System.out.println("유통기한이 지났습니다.");
+		}	
+else
+	System.out.println("유통기한이 남았습니다.");
