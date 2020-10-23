@@ -1,0 +1,58 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Scanner클래스 사용하여 6개의 학점을 입력받아 ArrayList를 검색하여 학점평균을 출력하는 프로그램
+public class Ex_1022_2 {
+
+	public static void main(String[] args) {
+		ArrayList<Character> a = new ArrayList<Character>();
+		Scanner sc =new Scanner(System.in);
+		
+		System.out.print("6개의 학점을 빈 칸으로 분리 입력 >> ");
+
+		for(int i = 0; i<6; i++) {
+			String s =sc.next();
+			
+			if(s.length()>1){
+				System.out.println("Not Character! "); //학점을 입력하지 않은 경우
+				return; //프로그램 종료
+			}
+			char ch = s.charAt(0);
+			//String.charAt()은 문자열에서 문자를 뽑는 함수.괄호안에는 인덱스가 들어간다.
+			if((ch>='A'&&ch<='D')||ch == 'F')
+				a.add(ch);
+			else {
+				System.out.println("Ivalid");
+				return;
+			}
+		}
+		
+		double score = 0.0;
+		for(int i=0; i<a.size(); i++) {
+			char ch = a.get(i);
+			
+			switch(ch) {
+			case 'A':
+				score += 4.0;
+				break;
+			case 'B':
+				score += 3.0;
+				break;
+			case 'C':
+				score += 2.0;
+				break;
+			case 'D':
+				score += 1.0;
+				break;
+				
+			default:
+				score +=0.0;
+				break;
+			}
+		}
+		System.out.println("평균은 " + score/a.size()+"입니다.");
+		
+		
+		
+	}
+}
