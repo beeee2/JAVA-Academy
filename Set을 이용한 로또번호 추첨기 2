@@ -1,0 +1,21 @@
+package CollectionsFrameWorks;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class SetEx1 {
+
+	public static void main(String[] args) {
+      Random r = new Random();
+		  TreeSet lotto2 = new TreeSet();
+		
+		  while(lotto2.size()<6) {//TreeSet 크기가 6보다 작을 때 까지 반복
+			  lotto2.add(r.nextInt(45)+1);
+		  }
+		  System.out.println("로또 번호 : " + lotto2);
+	 }
+
+}
