@@ -1,0 +1,67 @@
+class Account{
+  int money = 0;
+  
+  public int showMoney(){
+    return money; //잔액조회 메서드 
+   }
+   
+  public synchronized void setMoney(){ //입금내역 알림 메서드
+    try{
+      Thread.sleep(2000); // 2초정도 지난 후 입금되게끔 설정
+    } catch (InterruptedException e){
+      e.printStackTrace();
+    }
+    this.money += 2000; 
+    System.out.println("돈이 입금되었습니다. 현재잔액은 "+ this.showMoney()+"원 입니다.");
+    this.notify(); //입금 후 대기상태에서 깨어난다.
+  }
+  
+  public synchronized void getMoney(){ // 출금내역 알림 메서드
+    while(money <= 0){
+      System.out.println("잔액이 없어서 인출할 수 없습니다.");
+			try {
+				this.wait(); // 대기상태가 된다. 
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    }
+    this.money -= 2000;
+    System.out.println("돈이 출금되었습니다. 현재 잔액은 "+ this.showMoney()+"원 입니다."); 
+  }
+}
+
+class Withdraw extends Thread{
+  Account account;
+  public Withdraw(Account account){
+    this.account = account;
+  }
+  public void run(){
+    for(int i=0; i<10; i++)
+      account.getMoney();
+  }
+}
+
+class Deposit extends Thread{
+  Account account;
+  public Deposit(Account Account){
+    this.account = account;
+  }
+  public void run() {
+    for(int i=0; i<10; i++)
+      account.setMoney();
+  }
+}
+
+public class ThreadTest8{
+  public static void main(String[] args){
+    Account account = new Account();
+    
+    Deposit deposit = new Deposit(account);
+    Withdraw withdraw = new Withdraw(account);
+    
+    deposit.start();
+    withdraw.start();
+  
+  }
+}
