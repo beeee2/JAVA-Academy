@@ -1,0 +1,41 @@
+class ThreadEx10 implements Runnable{
+  Ticketing ticket = new Ticketing();
+  
+  @Override
+  public void run(){
+    ticket.ticketing();
+  }
+}
+
+class  Ticketing{
+  int ticketNumber = 1;
+  
+  public synchronized void ticketin(){
+    if(ticketNumber >0){
+      System.out.println(Thread.currentThread().getName() + "은/는 티켓팅에 성공하였습니다.");
+      ticketNumber -= 1;
+    }
+    else
+      System.out.println(Thread.currentThread().getName()+  "은/는 티켓팅에 성공하였습니다.");
+      
+    System.out.println(Thread.currentThread().getName() + "남아있는 티켓 수 : "+ ticketNumber);
+  }
+}
+
+public class ThreadTest7 {
+
+	public static void main(String[] args) {
+	
+		ThreadEx10 s1 = new ThreadEx10();
+		
+		Thread a = new Thread(s1,"A");
+		Thread b = new Thread(s1,"B");
+		Thread c = new Thread(s1,"C");
+		
+		a.start();
+		b.start();
+		c.start();
+		
+	}
+
+}
