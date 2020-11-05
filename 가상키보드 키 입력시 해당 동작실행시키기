@@ -1,0 +1,44 @@
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+class KeyCodeEx1 extends JFrame{
+	JLabel la = new JLabel();
+	Container c = getContentPane();
+	
+	public KeyCodeEx1(){
+		super("KeyCode 예제 : F1키는 검정색, %키는 짙은 회색 ");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		c.addKeyListener(new MyKeyListener());
+		c.add(la); //contentpane에 라벨추가하기 
+		
+		setVisible(true);
+		setSize(300,150);
+		//(키 입력을 받을 수 있도록) contentpane에 포커스 주기
+		c.setFocusable(true);
+		c.requestFocus();
+	}
+	
+	class MyKeyListener extends KeyAdapter{ //리스너안에 원하는 동작 코드 작성하기 
+		//키보드 눌렀을 때 동작실행하게끔 한다.
+		@Override
+		public void keyPressed(KeyEvent e) {
+			la.setText(e.getKeyText(e.getKeyCode()));//해당하는 키보드 값 눌렀을 시 라벨에다가 부여 
+		
+			if(e.getKeyChar() == '%')
+				c.setBackground(Color.darkGray);
+			else if(e.getKeyCode() == KeyEvent.VK_F1)//유니코드값으로 받아올 수 없기에 겟키코드사용
+				c.setBackground(Color.BLACK);
+		}
+	}	
+}
+
+public class GUIEx10 {
+	public static void main(String[] args) {
+		new KeyCodeEx1();
+	}
+}
