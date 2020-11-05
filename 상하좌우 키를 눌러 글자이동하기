@@ -1,0 +1,71 @@
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+
+class FlyingTextEx extends JFrame{
+	final int FLYING_UNIT = 8;
+	JLabel la = new JLabel("HI :D");
+	
+	public FlyingTextEx() {
+		super("상하좌우 키를 이용한 텍스트 이동");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		Container c = getContentPane();
+		c.addKeyListener(new MyKeyListener());
+		c.setLayout(null); // 배치관리자 삭제
+		
+		la.setLocation(50, 50);
+		la.setSize(100,20);
+		c.add(la);
+		
+		c.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) { //눌렀을 때 포커스 줄 수 있도록
+				Component com = (Component)e.getSource(); //  프레임의 최상위 객체, 최상위객체이기에 형변환해야함
+				com.setFocusable(true);
+				com.requestFocus();
+			}
+			
+		});//마우스에 붙어있는 값을 가져오는 것 //포커스가 다시 화면에 돌아오게끔
+		
+		setVisible(true);
+		setSize(300,300);
+		c.setFocusable(true);
+		c.requestFocus();
+	}
+	class MyKeyListener extends KeyAdapter{
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int keyCode = e.getKeyCode();
+			
+			switch(keyCode) {
+			case KeyEvent.VK_UP:
+				la.setLocation(la.getX(), la.getY()-FLYING_UNIT); //x좌표값을 가지고 오는 것
+				break;
+			case KeyEvent.VK_DOWN:
+				la.setLocation(la.getX(),la.getY()+FLYING_UNIT);
+				break;
+			case KeyEvent.VK_LEFT:
+				la.setLocation(la.getX()-FLYING_UNIT,la.getY());
+				break;
+			case KeyEvent.VK_RIGHT:
+				la.setLocation(la.getX()+FLYING_UNIT,la.getY());
+				break;
+			}
+		}
+	}
+}
+
+public class GUIEx11 {
+	public static void main(String[] args) {
+		new FlyingTextEx();
+	}
+}
